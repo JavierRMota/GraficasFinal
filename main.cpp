@@ -1,85 +1,111 @@
 /*
  * main.cpp: Art
  */
+ #include <stdlib.h>
  #include <OpenGL/gl.h>
 
  #include <OpenGl/glu.h>
 
  #include <GLUT/glut.h>
-//bg: 250.0f/255, 232.0f/255, 217.0f/255, 1.0f
-/* Global variables */
 
+ static int width;
+ static int height;
+ float xv = 0.0, yv = 0.0, zv = -4.0; // Viewing-coordinate origin.
+ float xref = 0.0, yref = 0.0, zref = 0.0; // Look-at point.
+ GLfloat Vx = 0.0, Vy = 1.0, Vz = 0.0; // View-up vector.
+ float movement = 0.1;
 
-GLint winWidth = 600, winHeight = 600; // Initial display-window size.
+ static void display(void) {
+     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+     glColor3f(1.0f, 0.0f, 0.0f);
 
-GLfloat x = 0.0, y = 40.0, z = -100.0; // Viewing-coordinate origin.
-GLfloat xref = 0.0, yref = -50.0, zref = 0.0; // Look-at point.
-GLfloat Vx = 0.0, Vy = 1.0, Vz = 0.0; // View-up vector.
+     glViewport(0, 0, width, height/2);
+     glLoadIdentity();
+     gluLookAt(0.0, 0.0, -10.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+     glutWireTeapot(2);
 
-/* Set coordinate limits for the clipping window: */
-GLfloat xwMin = -40.0, ywMin = -60.0, xwMax = 40.0, ywMax = 60.0;
+     glViewport(0, height/2, width/2, height);
+     glLoadIdentity();
+     gluLookAt(xv, yv, zv, xref, yref, zref, Vx, Vy, Vz);
+     glutWireTeapot(1);
 
-/* Set positions for near and far clipping planes: */
-GLfloat dnear = 25.0, dfar = 200.0;
+     glViewport(width/2, height/2, width, height);
+     glLoadIdentity();
+     gluLookAt(0.0, -3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+     glBegin (GL_QUADS);
+       glColor3f(0.0f,0.0f,0.0f);
+       glVertex3f(-1.0, -1.0, 1.0);
+       glVertex3f(1.0, -1.0, 1.0);
+       glVertex3f(1.0,-1.0, -1.0);
+       glVertex3f(-1.0, -1.0, -1.0);
+     glEnd ();
 
-void init (void)
-{
-   glClearColor (250.0f/255, 232.0f/255, 217.0f/255, 1.0f);
-   glMatrixMode(GL_MODELVIEW);
-   gluLookAt(x, y, z, xref, yref, zref, Vx, Vy, Vz);
-   glMatrixMode(GL_PROJECTION);
-   glOrtho(-200.0,200.0,-200.0,200.0, -200,200);
-   //glFrustum(xwMin, xwMax, ywMin, ywMax, dnear, dfar);
-   glEnable(GL_DEPTH_TEST);
-}
+     glFlush();
+ }
 
-void displayFcn (void)
-{
-  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  /* Set parameters for a square fill area. */
-  glMatrixMode(GL_MODELVIEW);
+ static void reshape(int w, int h) {
+     width = w;
+     height = h;
+     glMatrixMode(GL_PROJECTION);
+     glLoadIdentity();
+     glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
+     glMatrixMode(GL_MODELVIEW);
+ }
 
-  // glPolygonMode (GL_FRONT, GL_LINE);
-  // glPolygonMode(GL_FRONT, GL_FILL);
-  glBegin (GL_QUADS);
-    glColor3f(0.0f,0.0f,0.0f);
-    glVertex3f(-200.0, -200.0, 200.0);
-    glVertex3f(200.0, -200.0, 200.0);
-    glVertex3f(200.0,-200.0, -200.0);
-    glVertex3f(-200.0, -200.0, -200.0);
+ void keyboard(unsigned char key, int x, int y) {
+    switch (key) {
+       case 'w':
+         yv+=movement;
+         break;
+       case 's':
+         yv-=movement;
+         break;
+       case 'q':
+         xv+=movement;
+         break;
+       case 'a':
+         xv-=movement;
+         break;
+       case 'e':
+         zv+=movement;
+         break;
+       case 'd':
+         zv-=movement;
+         break;
+       case 'u':
+         xref+=movement;
+         break;
+       case 'j':
+         xref-=movement;
+         break;
+       case 'i':
+         yref+=movement;
+         break;
+       case 'k':
+        yref-=movement;
+        break;
+       case 'o':
+         zref+=movement;
+         break;
+       case 'l':
+         zref-=movement;
+         break;
+       default: break;
+    }
+    glutPostRedisplay();
+ }
 
-    glVertex3f(-200.0, 200.0, 200.0);
-    glVertex3f(200.0, 200.0, 200.0);
-    glVertex3f(200.0,200.0, -200.0);
-    glVertex3f(-200.0, 200.0, -200.0);
-  glEnd ();
-  glTranslatef(0.0,0.0,0.0);
-  glutWireCube (30.0);
- glFlush();
-
-}
-
-void reshapeFcn (GLint newWidth, GLint newHeight)
-{
-  if (newHeight == 0) newHeight = 1;                // To prevent divide by 0
-  GLfloat aspect = (GLfloat)newWidth / (GLfloat)newHeight;
-
-  glViewport(0, 0, newWidth, newHeight);
-
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective(45.0f, aspect, dnear, dfar);
-}
-
-int main (int argc, char** argv)
-{
-   glutInit (&argc, argv);
-   glutInitDisplayMode (GLUT_DEPTH | GLUT_SINGLE | GLUT_RGB);
-   glutInitWindowPosition (50, 50);
-   glutInitWindowSize (winWidth, winHeight);
-   glutCreateWindow ("Art");
-   init ( );
-   glutDisplayFunc (displayFcn);
-   //glutReshapeFunc (reshapeFcn);
-   glutMainLoop ( );
-}
+ int main(int argc, char** argv) {
+     glutInit(&argc, argv);
+     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+     glutInitWindowSize(500, 500);
+     glutInitWindowPosition(100, 100);
+     glutCreateWindow(argv[0]);
+     glClearColor(250.0f/255, 232.0f/255, 217.0f/255, 1.0f);
+     glShadeModel(GL_FLAT);
+     glutDisplayFunc(display);
+     glutReshapeFunc(reshape);
+     glutKeyboardFunc(keyboard);
+     glutMainLoop();
+     return EXIT_SUCCESS;
+ }
