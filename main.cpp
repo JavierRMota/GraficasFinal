@@ -15,6 +15,51 @@
  GLfloat Vx = 0.0, Vy = 1.0, Vz = 0.0; // View-up vector.
  float movement = 0.1;
 
+ int COLOR_BACKGROUND = 0, COLOR_BLACK = 1, COLOR_RED = 2, COLOR_ORANGE = 3;
+ void setColor(int value, float alpha) {
+   switch(value) {
+     case 1:
+      glColor4f(0.0,0.0,0.0, alpha);
+      break;
+    case 2:
+      glColor4f(203.0f/255,46.0f/255,36.0f/255, alpha);
+      break;
+    case 3:
+      glColor4f(206.0f/255,48.0f/255,64.0f/255, alpha);
+      break;
+    default:
+      glColor4f(250.0f/255, 232.0f/255, 217.0f/255, alpha);
+   }
+ }
+ void triangularPrism()
+{
+    glBegin(GL_QUADS);
+        glVertex3f(0.5, 0, 0.5);
+        glVertex3f(0.5, 0, -0.5);
+        glVertex3f(-0.5, 0, -0.5);
+        glVertex3f(-0.5, 0, 0.5);
+
+        glVertex3f(0.5,0,-0.5);
+        glVertex3f(0.5,1,-0.5);
+        glVertex3f(-0.5,1,-0.5);
+        glVertex3f(-0.5,0,-0.5);
+
+        glVertex3f(0.5,1,-0.5);
+        glVertex3f(-0.5,1,-0.5);
+        glVertex3f(-0.5,0,0.5);
+        glVertex3f(0.5,0,0.5);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+        glVertex3f(0.5,0,0.5);
+        glVertex3f(0.5,1,-0.5);
+        glVertex3f(0.5,0,-0.5);
+
+        glVertex3f(-0.5,0,0.5);
+        glVertex3f(-0.5,1,-0.5);
+        glVertex3f(-0.5,0,-0.5);
+    glEnd();
+}
+
  static void display(void) {
      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
      glColor3f(1.0f, 0.0f, 0.0f);
@@ -27,8 +72,16 @@
      glViewport(0, height/2, width/2, height);
      glLoadIdentity();
      gluLookAt(xv, yv, zv, xref, yref, zref, Vx, Vy, Vz);
-     glutWireTeapot(1);
-
+     glPushMatrix();
+     setColor(COLOR_BLACK, 0.2);
+     triangularPrism();
+     glTranslatef(0.5,0.5,0.0);
+     setColor(COLOR_RED, 0.2);
+     triangularPrism();
+     glTranslatef(-0.5,-0.5,1.0);
+     setColor(COLOR_ORANGE, 0.2);
+     triangularPrism();
+     glPopMatrix();
      glViewport(width/2, height/2, width, height);
      glLoadIdentity();
      gluLookAt(0.0, -3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
@@ -103,6 +156,8 @@
      glutCreateWindow(argv[0]);
      glClearColor(250.0f/255, 232.0f/255, 217.0f/255, 1.0f);
      glShadeModel(GL_FLAT);
+     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+     glEnable( GL_BLEND );
      glutDisplayFunc(display);
      glutReshapeFunc(reshape);
      glutKeyboardFunc(keyboard);
