@@ -1,5 +1,10 @@
 /*
  * main.cpp: Art
+ * 
+ * Artists:
+ * Jose Javier Rodríguez Mota     - A01372812
+ * Luis Fernando Cedeño Medrano   - A01373540  
+ * 
  */
  #include <stdlib.h>
  #include <OpenGL/gl.h>
@@ -7,6 +12,7 @@
  #include <OpenGl/glu.h>
  #include <GLUT/glut.h>
 
+ // Letters
  GLubyte space[] =
  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
@@ -39,18 +45,20 @@
  {0x00, 0x00, 0xff, 0xc0, 0xc0, 0x60, 0x30, 0x7e, 0x0c, 0x06, 0x03, 0x03, 0xff}
  };
 
+ // Screen variables
  static int width;
  static int height;
  GLuint fontOffset;
+
+ // 3D tour variables 
  float xv = 0.0, yv = 0.0, zv = -10.0; // Viewing-coordinate origin.
  float xref = 0.0, yref = 0.0, zref = 0.0; // Look-at point.
  GLfloat Vx = 0.0, Vy = 1.0, Vz = 0.0; // View-up vector.
 
-
+ // Animation variables 
  float xrefa = 0.0, yrefa = 0.0, zrefa = 0.0; // Look-at point.
  float xa = 0.0, ya = 0.0, za = -10.0; // Viewing-coordinate origin.
  GLfloat Vxa = 0.0, Vya = 1.0, Vza = 0.0; // View-up vector.
-
 
  float movement = 0.1;
  int isNegativeZ = 0;
@@ -201,10 +209,61 @@
     glTranslatef(0.0,0.0,0.0);
     setColor(COLOR_RED, 0.2);
     triangularPrism();
-    setColor(COLOR_ORANGE, 0.2);
+    glTranslatef(-3.0, 1.0, 0.0);
+    glRotatef(90.0, 0.0, 0.0, 0.0);
+    setColor(COLOR_RED, 0.6);
+    triangularPrism();
+    glRotatef(90.0, 0.0, 90.0, 0.0);
+    glTranslatef(-2.0, 1.0, 0.5);
+    setColor(COLOR_ORANGE, 0.4);
+    triangularPrism();
+    glRotatef(90.0, 90.0, 0.0, 0.0);
+    glTranslatef(0.5, 4.0, 1.0); // aqui
+    glScalef(0.8, 0.8, 0.8);
+    setColor(COLOR_ORANGE, 0.65);
     triangularPrism();
    glPopMatrix();
-
+   
+   glPushMatrix();
+    glRotatef(90.0, 0.0, 90.0, 0.0);
+    glTranslatef(1.1, -0.5, 0.7);
+    glScalef(0.9, 0.9, 0.9);
+    setColor(COLOR_RED, 0.85);
+    triangularPrism();
+   glPopMatrix();
+   glPushMatrix();
+    glRotatef(-90.0, 0.0, 90.0, 0.0);
+    glTranslatef(-1.1, -0.7, 3.2);
+    glScalef(0.9, 0.9, 0.9);
+    setColor(COLOR_ORANGE, 0.5);
+    triangularPrism();
+   glPopMatrix();
+   glPushMatrix();
+    glRotatef(-45.0, 0.0, 90.0, 0.0);
+    glTranslatef(-1.3, 0.8, 1.0);
+    glScalef(0.7, 0.7, 0.9);
+    setColor(COLOR_ORANGE, 0.9);
+    triangularPrism();
+   glPopMatrix();
+   glPushMatrix();
+    glRotatef(90.0, 0.0, -45.0, 0.0);
+    glTranslatef(-2.0, 0.5, -1.9);
+    glScalef(0.7, 0.7, 0.9);
+    setColor(COLOR_ORANGE, 0.35);
+    triangularPrism();
+   glPopMatrix();
+   glPushMatrix();
+    glTranslatef(-1.5, -1.0, -0.5);
+    glScalef(0.7, 1.7, 0.9);
+    setColor(COLOR_RED, 0.3);
+    triangularPrism();
+   glPopMatrix();
+   glPushMatrix();
+    glTranslatef(1.3, 0.7, 1.5);
+    glScalef(0.8, 1.6, 1.2);
+    setColor(COLOR_RED, 0.65);
+    triangularPrism();
+   glPopMatrix();
  }
 
  void drawInstructions() {
@@ -218,39 +277,39 @@
      glEnd ();
 
      glColor3f(0.0f,0.8f,0.0f);
-     glRasterPos3f(5.9, -0.5, 0.0);
+     glRasterPos3f(6.6, -2.9, 0.0);
      printString("PRESS Q TO MOVE POSITIVE IN X AXIS");
-     glRasterPos3f(5.9, -0.8, 0.0);
+     glRasterPos3f(6.6, -3.1, 0.0);
      printString("PRESS A TO MOVE NEGATIVE IN X AXIS");
 
-     glRasterPos3f(5.9, -1.3, 0.0);
+     glRasterPos3f(6.6, -3.5, 0.0);
      printString("PRESS W TO MOVE POSITIVE IN Y AXIS");
-     glRasterPos3f(5.9, -1.6, 0.0);
+     glRasterPos3f(6.6, -3.7, 0.0);
      printString("PRESS S TO MOVE NEGATIVE IN Y AXIS");
 
-     glRasterPos3f(5.9, -2.1, 0.0);
+     glRasterPos3f(6.6, -4.1, 0.0);
      printString("PRESS E TO MOVE POSITIVE IN Z AXIS");
-     glRasterPos3f(5.9, -2.4, 0.0);
+     glRasterPos3f(6.6, -4.3, 0.0);
      printString("PRESS D TO MOVE NEGATIVE IN Z AXIS");
 
      glColor3f(0.9f,0.5f,0.1f);
-     glRasterPos3f(5.9, -3.0, 0.0);
+     glRasterPos3f(6.6, -4.7, 0.0);
      printString("PRESS U TO MOVE VIEW POSITIVE IN X AXIS");
-     glRasterPos3f(5.9, -3.3, 0.0);
+     glRasterPos3f(6.6, -4.9, 0.0);
      printString("PRESS J TO MOVE VIEW NEGATIVE IN X AXIS");
 
-     glRasterPos3f(5.9, -3.8, 0.0);
+     glRasterPos3f(6.6, -5.3, 0.0);
      printString("PRESS I TO MOVE VIEW POSITIVE IN Y AXIS");
-     glRasterPos3f(5.9, -4.1, 0.0);
+     glRasterPos3f(6.6, -5.5, 0.0);
      printString("PRESS K TO MOVE VIEW NEGATIVE IN Y AXIS");
 
-     glRasterPos3f(5.9, -4.6, 0.0);
+     glRasterPos3f(6.6, -5.9, 0.0);
      printString("PRESS O TO MOVE VIEW POSITIVE IN Z AXIS");
-     glRasterPos3f(5.9, -4.9, 0.0);
+     glRasterPos3f(6.6, -6.1, 0.0);
      printString("PRESS L TO MOVE VIEW NEGATIVE IN Z AXIS");
-
+    // .4 de diferencia
      glColor3f(0.8f,0.0f,0.4f);
-     glRasterPos3f(5.9, -5.5, 0.0);
+     glRasterPos3f(6.6, -6.5, 0.0);
      printString("PRESS ALGO TO ADD LIGHT");
    glPopMatrix();
  }
@@ -266,13 +325,13 @@
      drawArt();
 
      // Upper left viewport
-     glViewport(0, 500, 500, 1000);
+     glViewport(0, 500, 600, 1000);
      glLoadIdentity();
      gluLookAt(xv, yv, zv, xref, yref, zref, Vx, Vy, Vz);
      drawArt();
 
      // Upper right viewport
-     glViewport(500, 500, 1000, 1000);
+     glViewport(600, 500, 1000, 1000);
      glLoadIdentity();
      gluLookAt(0.0, 0.0, -10, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
      drawInstructions();
