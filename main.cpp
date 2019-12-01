@@ -45,7 +45,17 @@
  float xv = 0.0, yv = 0.0, zv = -10.0; // Viewing-coordinate origin.
  float xref = 0.0, yref = 0.0, zref = 0.0; // Look-at point.
  GLfloat Vx = 0.0, Vy = 1.0, Vz = 0.0; // View-up vector.
+
+
+ float xrefa = 0.0, yrefa = 0.0, zrefa = 0.0; // Look-at point.
+ float xa = 0.0, ya = 0.0, za = -10.0; // Viewing-coordinate origin.
+ GLfloat Vxa = 0.0, Vya = 1.0, Vza = 0.0; // View-up vector.
+
+
  float movement = 0.1;
+ int isNegativeZ = 0;
+ int isNegativeX = 0;
+
 
  void makeRasterFont(void) {
    GLuint i, j;
@@ -252,7 +262,7 @@
      // bottom viewport
      glViewport(0, 0, 1000, 500);
      glLoadIdentity();
-     gluLookAt(0.0, 0.0, -10, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+     gluLookAt(xa, ya, za, xrefa, yrefa, zrefa, Vxa, Vya, Vza);
      drawArt();
 
      // Upper left viewport
@@ -260,18 +270,6 @@
      glLoadIdentity();
      gluLookAt(xv, yv, zv, xref, yref, zref, Vx, Vy, Vz);
      drawArt();
-     /*glPushMatrix();
-      setColor(COLOR_BLACK, 0.2);
-      triangularPrism();
-      glTranslatef(0.5,0.5,0.0);
-
-      setColor(COLOR_RED, 0.2);
-      triangularPrism();
-      glTranslatef(-0.5,-0.5,1.0);
-
-      setColor(COLOR_ORANGE, 0.2);
-      triangularPrism();
-     glPopMatrix();*/
 
      // Upper right viewport
      glViewport(500, 500, 1000, 1000);
@@ -334,6 +332,34 @@
     glutPostRedisplay();
  }
 
+ void timer (int val) {
+   if (isNegativeX == 0) {
+     xa += movement;
+   } else {
+     xa -= movement;
+   }
+   if (xa >= 5) {
+     isNegativeX = 1;
+   }
+   if (xa <= -5) {
+     isNegativeX = 0;
+   }
+   if (isNegativeZ == 1) {
+     za -= movement;
+   } else {
+     za += movement;
+   }
+   if (za >= 10) {
+     isNegativeZ = 1;
+   }
+   if (za <= 5) {
+     isNegativeZ = 0;
+   }
+   glutPostRedisplay();
+   glutTimerFunc(16,timer,1);
+
+ }
+
  int main(int argc, char** argv) {
      glutInit(&argc, argv);
      glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -348,6 +374,7 @@
      glutDisplayFunc(display);
      glutReshapeFunc(reshape);
      glutKeyboardFunc(keyboard);
+     glutTimerFunc(0,timer,1);
      glutMainLoop();
      return EXIT_SUCCESS;
  }
