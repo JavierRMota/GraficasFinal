@@ -114,38 +114,55 @@
     glEnd();
 }
 
- static void display(void) {
-     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-     glColor3f(1.0f, 0.0f, 0.0f);
+ void drawArt() {
+   glPushMatrix();
+     setColor(COLOR_BLACK,1.0);
+     glBegin(GL_QUADS);
+       glVertex3f(3, -1, 0.0);
+       glVertex3f(3, -3, 0.0);
+       glVertex3f(-3, -3, 0.0);
+       glVertex3f(-3, -1, 0.0);
+     glEnd();
+   glPopMatrix();
+   glPushMatrix();
+    glTranslatef(3,0,2);
+    glScalef(0.7,3,1);
+    setColor(COLOR_BLACK, 1);
+    triangularPrism();
+   glPopMatrix();
+   glPushMatrix();
+    glTranslatef(2,0,2);
+    glScalef(0.7,3,1);
+    setColor(COLOR_BLACK, 1);
+    triangularPrism();
+   glPopMatrix();
+   glPushMatrix();
+    glTranslatef(1.2,0,2);
+    glScalef(0.5,3,1);
+    setColor(COLOR_BLACK, 1);
+    triangularPrism();
+   glPopMatrix();
+   glPushMatrix();
+    glTranslatef(0.5,0,2);
+    glScalef(0.5,3,1);
+    setColor(COLOR_BLACK, 1);
+    triangularPrism();
+   glPopMatrix();
+   glPushMatrix();
+    glTranslatef(0.5,0.5,0.0);
 
-     // bottom viewport
-     glViewport(0, 0, width, height/2);
-     glLoadIdentity();
-     gluLookAt(0.0, 0.0, -10.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-     glutWireTeapot(2);
+    setColor(COLOR_RED, 0.2);
+    triangularPrism();
+    glTranslatef(-5,-5,1.0);
 
-     // Upper left viewport
-     glViewport(0, height/2, width/2, height);
-     glLoadIdentity();
-     gluLookAt(xv, yv, zv, xref, yref, zref, Vx, Vy, Vz);
-     glPushMatrix();
-      setColor(COLOR_BLACK, 0.2);
-      triangularPrism();
-      glTranslatef(0.5,0.5,0.0);
+    setColor(COLOR_ORANGE, 0.2);
+    triangularPrism();
+   glPopMatrix();
 
-      setColor(COLOR_RED, 0.2);
-      triangularPrism();
-      glTranslatef(-0.5,-0.5,1.0);
+ }
 
-      setColor(COLOR_ORANGE, 0.2);
-      triangularPrism();
-     glPopMatrix();
-
-     // Upper right viewport
-     glViewport(width/2, height/2, width, height);
-     glLoadIdentity();
-     gluLookAt(0.0, 0.0, -10.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
+ void drawInstructions() {
+   glPushMatrix();
      glBegin (GL_QUADS);
        glColor3f(0.0f,0.0f,0.3f);
        glVertex3f(10.0, 0.0, 0.0);
@@ -189,6 +206,42 @@
      glColor3f(0.8f,0.0f,0.4f);
      glRasterPos3f(5.9, -5.5, 0.0);
      printString("PRESS ALGO TO ADD LIGHT");
+   glPopMatrix();
+ }
+
+ static void display(void) {
+     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+     glColor3f(1.0f, 0.0f, 0.0f);
+
+     // bottom viewport
+     glViewport(0, 0, 1000, 500);
+     glLoadIdentity();
+     gluLookAt(0.0, 0.0, -10, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+     drawArt();
+
+     // Upper left viewport
+     glViewport(0, 500, 500, 1000);
+     glLoadIdentity();
+     gluLookAt(xv, yv, zv, xref, yref, zref, Vx, Vy, Vz);
+     drawArt();
+     /*glPushMatrix();
+      setColor(COLOR_BLACK, 0.2);
+      triangularPrism();
+      glTranslatef(0.5,0.5,0.0);
+
+      setColor(COLOR_RED, 0.2);
+      triangularPrism();
+      glTranslatef(-0.5,-0.5,1.0);
+
+      setColor(COLOR_ORANGE, 0.2);
+      triangularPrism();
+     glPopMatrix();*/
+
+     // Upper right viewport
+     glViewport(500, 500, 1000, 1000);
+     glLoadIdentity();
+     gluLookAt(0.0, 0.0, -1.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+     drawInstructions();
 
      glFlush();
  }
