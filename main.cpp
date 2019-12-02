@@ -1,12 +1,13 @@
 /*
  * main.cpp: Art
- * 
+ *
  * Artists:
  * Jose Javier Rodríguez Mota     - A01372812
- * Luis Fernando Cedeño Medrano   - A01373540  
- * 
+ * Luis Fernando Cedeño Medrano   - A01373540
+ *
  */
  #include <stdlib.h>
+ #include <stdio.h>
  #include <OpenGL/gl.h>
  #include <string.h>
  #include <OpenGl/glu.h>
@@ -50,12 +51,12 @@
  static int height;
  GLuint fontOffset;
 
- // 3D tour variables 
- float xv = 0.0, yv = 0.0, zv = -10.0; // Viewing-coordinate origin.
+ // 3D tour variables
+ float xv = 0.0, yv = 0.0, zv = 10.0; // Viewing-coordinate origin.
  float xref = 0.0, yref = 0.0, zref = 0.0; // Look-at point.
  GLfloat Vx = 0.0, Vy = 1.0, Vz = 0.0; // View-up vector.
 
- // Animation variables 
+ // Animation variables
  float xrefa = 0.0, yrefa = 0.0, zrefa = 0.0; // Look-at point.
  float xa = 0.0, ya = 0.0, za = -10.0; // Viewing-coordinate origin.
  GLfloat Vxa = 0.0, Vya = 1.0, Vza = 0.0; // View-up vector.
@@ -63,6 +64,29 @@
  float movement = 0.1;
  int isNegativeZ = 0;
  int isNegativeX = 0;
+
+ GLfloat mat_specular[] = { 0.0, 0.0, 0.0, 1.0 };
+
+ GLfloat mat_specular_e[] = { 1.0, 1.0, 1.0, 1.0 };
+
+ GLfloat mat_diffuse_white[] = { 1.0, 1.0, 1.0, 0.5 };
+ GLfloat mat_diffuse_orange[] = { 206.0f/255,48.0f/255,64.0f/255, 1.0 };
+ GLfloat mat_diffuse_red[] = { 203.0f/255,46.0f/255,36.0f/255, 0.5 };
+ GLfloat mat_black_ambient[] = {0.0, 0.0, 0.0, 1.0};
+ GLfloat mat_shininess[] = { 100.0 };
+
+ GLfloat material_color_orange[] = {206.0f/255,48.0f/255,64.0f/255, 1.0};
+ GLfloat material_color_black[] = {0,0,0, 1.0};
+ GLfloat material_color_red[] = { 203.0f/255,46.0f/255,36.0f/255, 1.0 };
+
+  GLfloat materialSpecular[] = {0,0,1,1};
+  GLfloat material_emission_white[] = {1.0f,1.0f,1.0f, 1.0f};
+
+  GLfloat material_emission_black[] = {0,0,0, 1.0f};
+
+  GLfloat shininess = 20;
+
+
 
 
  void makeRasterFont(void) {
@@ -134,15 +158,45 @@
 
  void drawArt() {
    glPushMatrix();
-     setColor(COLOR_BLACK,1.0);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_black);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular_e);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_black);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 10);
+     setColor(COLOR_BLACK,1);
      glBegin(GL_QUADS);
        glVertex3f(4, -1, 0.0);
        glVertex3f(4, -3, 0.0);
        glVertex3f(-5.5, -3, 0.0);
        glVertex3f(-5.5, -1, 0.0);
+
+       glVertex3f(4, -1, -5.0);
+       glVertex3f(4, -3, -5.0);
+       glVertex3f(-5.5, -3, -5.0);
+       glVertex3f(-5.5, -1, -5.0);
+
+       glVertex3f(4, -1, 0.0);
+       glVertex3f(4, -3, 0.0);
+       glVertex3f(4, -3, -5.0);
+       glVertex3f(4, -1, -5.0);
+
+       glVertex3f(-5.5, -1, 0.0);
+       glVertex3f(-5.5, -3, 0.0);
+       glVertex3f(-5.5, -3, -5.0);
+       glVertex3f(-5.5, -1, -5.0);
+
+       glVertex3f(4, -1, -5.0);
+       glVertex3f(4, -1, 0.0);
+       glVertex3f(-5.5, -1, 0.0);
+       glVertex3f(-5.5, -1, -5.0);
+
+
      glEnd();
    glPopMatrix();
    glPushMatrix();
+   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_black);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_black);
+   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100);
      glRotatef(180,1,0,0);
      glPushMatrix();
       glTranslatef(3,-3,2);
@@ -206,6 +260,10 @@
      glPopMatrix();
    glPopMatrix();
    glPushMatrix();
+   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_red);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular_e);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_red);
+   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50);
     glTranslatef(0.0,0.0,0.0);
     setColor(COLOR_RED, 0.2);
     triangularPrism();
@@ -213,6 +271,10 @@
     glRotatef(90.0, 0.0, 0.0, 0.0);
     setColor(COLOR_RED, 0.6);
     triangularPrism();
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_orange);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_orange);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100);
     glRotatef(90.0, 0.0, 90.0, 0.0);
     glTranslatef(-2.0, 1.0, 0.5);
     setColor(COLOR_ORANGE, 0.4);
@@ -223,8 +285,12 @@
     setColor(COLOR_ORANGE, 0.65);
     triangularPrism();
    glPopMatrix();
-   
+
    glPushMatrix();
+   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_red);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_red);
+   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50);
     glRotatef(90.0, 0.0, 90.0, 0.0);
     glTranslatef(1.1, -0.5, 0.7);
     glScalef(0.9, 0.9, 0.9);
@@ -232,6 +298,10 @@
     triangularPrism();
    glPopMatrix();
    glPushMatrix();
+   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_orange);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular_e);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_orange);
+   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 80);
     glRotatef(-90.0, 0.0, 90.0, 0.0);
     glTranslatef(-1.1, -0.7, 3.2);
     glScalef(0.9, 0.9, 0.9);
@@ -253,6 +323,10 @@
     triangularPrism();
    glPopMatrix();
    glPushMatrix();
+   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_red);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular_e);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_red);
+   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 90);
     glTranslatef(-1.5, -1.0, -0.5);
     glScalef(0.7, 1.7, 0.9);
     setColor(COLOR_RED, 0.3);
@@ -333,8 +407,13 @@
      // Upper right viewport
      glViewport(600, 500, 1000, 1000);
      glLoadIdentity();
+     glDisable(GL_LIGHTING);
+     glDisable(GL_DEPTH_TEST);
      gluLookAt(0.0, 0.0, -10, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
      drawInstructions();
+     glEnable(GL_LIGHTING);
+     glEnable(GL_DEPTH_TEST);
+
 
      glFlush();
  }
@@ -348,44 +427,101 @@
      glMatrixMode(GL_MODELVIEW);
  }
 
- void keyboard(unsigned char key, int x, int y) {
+ void keyboard(unsigned char key, int w, int v) {
+   GLfloat pos[] = {xv,yv,zv,1};
+   GLfloat x, y, z;
+
     switch (key) {
        case 'w':
          yv+=movement;
+         printf("Movido a:%f %f %f\n", xv, yv, zv );
          break;
        case 's':
          yv-=movement;
+         printf("Movido a: %f %f %f\n", xv, yv, zv );
          break;
        case 'q':
          xv+=movement;
+         printf("Movido a: %f %f %f\n", xv, yv, zv );
          break;
        case 'a':
          xv-=movement;
+         printf("Movido a: %f %f %f\n", xv, yv, zv );
          break;
        case 'e':
          zv+=movement;
+         printf("Movido a: %f %f %f\n", xv, yv, zv );
          break;
        case 'd':
          zv-=movement;
+         printf("Movido a: %f %f %f\n", xv, yv, zv );
          break;
        case 'u':
          xref+=movement;
+         printf("Viendo a: %f %f %f\n", xref, yref, zref );
          break;
        case 'j':
          xref-=movement;
+         printf("Viendo a: %f %f %f\n", xref, yref, zref );
          break;
        case 'i':
          yref+=movement;
+         printf("Viendo a: %f %f %f\n", xref, yref, zref );
          break;
        case 'k':
         yref-=movement;
+        printf("Viendo a: %f %f %f\n", xref, yref, zref );
         break;
        case 'o':
          zref+=movement;
+         printf("Viendo a: %f %f %f\n", xref, yref, zref );
          break;
        case 'l':
          zref-=movement;
+         printf("Viendo a: %f %f %f\n", xref, yref, zref );
          break;
+       case 'v':
+          glLightfv(GL_LIGHT2, GL_POSITION, pos);
+          glLightfv(GL_LIGHT2, GL_SPECULAR, mat_specular_e);
+          glEnable(GL_LIGHT2);
+          printf("Luz 2 en: %f %f %f Viendo a:  %f %f %f\n", xv, yv, zv, xref, yref,zref );
+          break;
+        case 'b':
+          glDisable(GL_LIGHT2);
+          printf("Luz 2 desactivada\n" );
+          break;
+        case 'n':
+          glDisable(GL_LIGHT1);
+          printf("Luz 1 desactivada\n" );
+          break;
+        case 'm':
+          glDisable(GL_LIGHT0);
+          printf("Luz 0 desactivada\n" );
+          break;
+        case 'c':
+          glEnable(GL_LIGHT1);
+          printf("Luz 1 activada\n" );
+          break;
+        case 'x':
+          glEnable(GL_LIGHT0);
+          printf("Luz 0 activada\n" );
+          break;
+        case 'g':
+          printf("Obtener coordenadas para mover la camara x y z\n");
+          scanf("%f %f %f",&x,&y,&z);
+          xv =x;
+          yv =y;
+          zv = z;
+          printf("Movido a: %f %f %f\n", xv, yv, zv );
+          break;
+        case 't':
+            printf("Obtener coordenadas para mover la vista x y z\n");
+            scanf("%f %f %f",&x,&y,&z);
+            xref =x;
+            yref =y;
+            zref = z;
+            printf("Vista en: %f %f %f\n", xv, yv, zv );
+            break;
        default: break;
     }
     glutPostRedisplay();
@@ -411,24 +547,45 @@
    if (za >= 10) {
      isNegativeZ = 1;
    }
-   if (za <= 5) {
+   if (za <= -10) {
      isNegativeZ = 0;
    }
    glutPostRedisplay();
    glutTimerFunc(16,timer,1);
 
  }
+ void init() {
+   GLfloat light_position[] = { 3.0, 1, -2.0, 1.0 };
+   GLfloat light_position_2[] = { -3.0, 2, -2.0, 1.0 };
+
+   glClearColor(250.0f/255, 232.0f/255, 217.0f/255, 1.0f);
+   glShadeModel(GL_FLAT);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+   glEnable( GL_BLEND );
+   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+   glLightfv(GL_LIGHT1, GL_POSITION, light_position_2);
+   glLightfv(GL_LIGHT0, GL_SPECULAR, mat_specular_e);
+   glLightfv(GL_LIGHT1, GL_SPECULAR, mat_specular_e);
+
+   glEnable(GL_LIGHTING);
+   glEnable(GL_LIGHT0);
+   glEnable(GL_LIGHT1);
+   glEnable(GL_DEPTH_TEST);
+   glDisable(GL_COLOR_MATERIAL);
+
+   glEnable(GL_NORMALIZE);
+   glShadeModel(GL_SMOOTH);
+   glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+
+ }
 
  int main(int argc, char** argv) {
      glutInit(&argc, argv);
-     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
      glutInitWindowSize(1000, 1000);
      glutInitWindowPosition(100, 100);
      glutCreateWindow(argv[0]);
-     glClearColor(250.0f/255, 232.0f/255, 217.0f/255, 1.0f);
-     glShadeModel(GL_FLAT);
-     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-     glEnable( GL_BLEND );
+     init();
      makeRasterFont();
      glutDisplayFunc(display);
      glutReshapeFunc(reshape);
