@@ -280,7 +280,7 @@
     setColor(COLOR_ORANGE, 0.4);
     triangularPrism();
     glRotatef(90.0, 90.0, 0.0, 0.0);
-    glTranslatef(0.5, 4.0, 1.0); // aqui
+    glTranslatef(0.5, 4.0, 1.0);
     glScalef(0.8, 0.8, 0.8);
     setColor(COLOR_ORANGE, 0.65);
     triangularPrism();
@@ -344,47 +344,77 @@
    glPushMatrix();
      glBegin (GL_QUADS);
        glColor3f(0.0f,0.0f,0.3f);
-       glVertex3f(10.0, 0.0, 0.0);
+       glVertex3f(10.0, 10.0, 0.0);
        glVertex3f(10.0, -10.0, 0.0);
        glVertex3f(0.0, -10.0, 0.0);
-       glVertex3f(0.0, 0.0, 0.0);
+       glVertex3f(0.0, 10.0, 0.0);
      glEnd ();
 
+     glColor3f(1.0f,1.0f,1.0f);
+     glRasterPos3f(6.3, 3.5, 0.0);
+     printString("INSTRUCTIONS");
+
+     glRasterPos3f(6.3, 3.0, 0.0);
+     printString("CAMERA POSITION");
      glColor3f(0.0f,0.8f,0.0f);
-     glRasterPos3f(6.6, -2.9, 0.0);
+     glRasterPos3f(6.3, 2.6, 0.0);
      printString("PRESS Q TO MOVE POSITIVE IN X AXIS");
-     glRasterPos3f(6.6, -3.1, 0.0);
+     glRasterPos3f(6.3, 2.4, 0.0);
      printString("PRESS A TO MOVE NEGATIVE IN X AXIS");
 
-     glRasterPos3f(6.6, -3.5, 0.0);
+     glRasterPos3f(6.3, 2.0, 0.0);
      printString("PRESS W TO MOVE POSITIVE IN Y AXIS");
-     glRasterPos3f(6.6, -3.7, 0.0);
+     glRasterPos3f(6.3, 1.8, 0.0);
      printString("PRESS S TO MOVE NEGATIVE IN Y AXIS");
 
-     glRasterPos3f(6.6, -4.1, 0.0);
+     glRasterPos3f(6.3, 1.4, 0.0);
      printString("PRESS E TO MOVE POSITIVE IN Z AXIS");
-     glRasterPos3f(6.6, -4.3, 0.0);
+     glRasterPos3f(6.3, 1.2, 0.0);
      printString("PRESS D TO MOVE NEGATIVE IN Z AXIS");
 
+     glColor3f(1.0f,1.0f,1.0f);
+     glRasterPos3f(6.3, 0.7, 0.0);
+     printString("CAMERA VIEW");
+
      glColor3f(0.9f,0.5f,0.1f);
-     glRasterPos3f(6.6, -4.7, 0.0);
+     glRasterPos3f(6.3, 0.3, 0.0);
      printString("PRESS U TO MOVE VIEW POSITIVE IN X AXIS");
-     glRasterPos3f(6.6, -4.9, 0.0);
+     glRasterPos3f(6.3, 0.1, 0.0);
      printString("PRESS J TO MOVE VIEW NEGATIVE IN X AXIS");
 
-     glRasterPos3f(6.6, -5.3, 0.0);
+     glRasterPos3f(6.3, -0.3, 0.0);
      printString("PRESS I TO MOVE VIEW POSITIVE IN Y AXIS");
-     glRasterPos3f(6.6, -5.5, 0.0);
+     glRasterPos3f(6.3, -0.5, 0.0);
      printString("PRESS K TO MOVE VIEW NEGATIVE IN Y AXIS");
 
-     glRasterPos3f(6.6, -5.9, 0.0);
+     glRasterPos3f(6.3, -0.9, 0.0);
      printString("PRESS O TO MOVE VIEW POSITIVE IN Z AXIS");
-     glRasterPos3f(6.6, -6.1, 0.0);
+     glRasterPos3f(6.3, -1.1, 0.0);
      printString("PRESS L TO MOVE VIEW NEGATIVE IN Z AXIS");
-    // .4 de diferencia
+    
+     glColor3f(1.0f,1.0f,1.0f);
+     glRasterPos3f(6.3, -1.6, 0.0);
+     printString("ILUMINATION");
+
      glColor3f(0.8f,0.0f,0.4f);
-     glRasterPos3f(6.6, -6.5, 0.0);
-     printString("PRESS ALGO TO ADD LIGHT");
+     glRasterPos3f(6.3, -2.0, 0.0);
+     printString("PRESS X TO ENABLE LIGHT ZERO");
+     glRasterPos3f(6.3, -2.2, 0.0);
+     printString("PRESS C TO ENABLE LIGHT ONE");
+     glRasterPos3f(6.3, -2.4, 0.0);
+     printString("PRESS V TO ENABLE LIGHT TWO");
+
+     glRasterPos3f(6.3, -2.8, 0.0);
+     printString("PRESS M TO DISABLE LIGHT ZERO");
+     glRasterPos3f(6.3, -3.0, 0.0);
+     printString("PRESS N TO DISABLE LIGHT ONE");
+     glRasterPos3f(6.3, -3.2, 0.0);
+     printString("PRESS B TO DISABLE LIGHT TWO");
+
+     glRasterPos3f(6.3, -3.7, 0.0);
+     printString("PRESS G TO ENTER VALUES FOR CAMERA");
+     glRasterPos3f(6.3, -3.9, 0.0);
+     printString("PRESS T TO ENTER VALUES FOR VIEW");
    glPopMatrix();
  }
 
@@ -399,13 +429,13 @@
      drawArt();
 
      // Upper left viewport
-     glViewport(0, 500, 600, 1000);
+     glViewport(100, 500, 800, 1000);
      glLoadIdentity();
      gluLookAt(xv, yv, zv, xref, yref, zref, Vx, Vy, Vz);
      drawArt();
 
      // Upper right viewport
-     glViewport(600, 500, 1000, 1000);
+     glViewport(1000, 0, 1000, 1000);
      glLoadIdentity();
      glDisable(GL_LIGHTING);
      glDisable(GL_DEPTH_TEST);
@@ -582,7 +612,7 @@
  int main(int argc, char** argv) {
      glutInit(&argc, argv);
      glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
-     glutInitWindowSize(1000, 1000);
+     glutInitWindowSize(2000, 2000);
      glutInitWindowPosition(100, 100);
      glutCreateWindow(argv[0]);
      init();
