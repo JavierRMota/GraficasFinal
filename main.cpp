@@ -75,7 +75,7 @@
  GLfloat mat_black_ambient[] = {0.0, 0.0, 0.0, 1.0};
  GLfloat mat_shininess[] = { 100.0 };
 
- GLfloat material_color_orange[] = {206.0f/255,48.0f/255,64.0f/255, 1.0};
+ GLfloat material_color_orange[] = {206.0f/255,48.0f/255,64.0f/255, 0.5};
  GLfloat material_color_black[] = {0,0,0, 1.0};
  GLfloat material_color_red[] = { 203.0f/255,46.0f/255,36.0f/255, 1.0 };
 
@@ -298,10 +298,10 @@
     triangularPrism();
    glPopMatrix();
    glPushMatrix();
-   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_orange);
-   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular_e);
-   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_orange);
-   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 80);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_orange);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular_e);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_orange);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 80);
     glRotatef(-90.0, 0.0, 90.0, 0.0);
     glTranslatef(-1.1, -0.7, 3.2);
     glScalef(0.9, 0.9, 0.9);
@@ -323,10 +323,10 @@
     triangularPrism();
    glPopMatrix();
    glPushMatrix();
-   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_red);
-   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular_e);
-   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_red);
-   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 90);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, material_color_red);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular_e);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_color_red);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 90);
     glTranslatef(-1.5, -1.0, -0.5);
     glScalef(0.7, 1.7, 0.9);
     setColor(COLOR_RED, 0.3);
